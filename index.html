@@ -258,13 +258,13 @@ Terwujudnya Kel. Empoang selatan yang transparan, responsif, dan maju melalui pe
 
 <strong>Misi:</strong>
 
-<strong>1.</strong>Menyediakan data desa yang valid, mutakhir, dan dapat diakses secara terbuka oleh masyarakat.
+<strong>1.</strong>Menyediakan data Desa/Kel yang valid, mutakhir, dan dapat diakses secara terbuka oleh masyarakat.
 <strong>2.</strong>Meningkatkan kualitas pelayanan publik melalui sistem informasi yang cepat, mudah, dan terintegrasi.
-<strong>3.</strong>Mendorong partisipasi masyarakat dalam pemanfaatan dan pengawasan data pembangunan desa.
+<strong>3.</strong>Mendorong partisipasi masyarakat dalam pemanfaatan dan pengawasan data pembangunan Desa/Kel.
 <strong>4.</strong>Mendukung pengambilan kebijakan berbasis data untuk pembangunan yang tepat sasaran.
-<strong>5.</strong>Mengembangkan literasi data di tingkat desa guna menciptakan masyarakat yang sadar informasi.
+<strong>5.</strong>Mengembangkan literasi data di tingkat Desa/Kel guna menciptakan masyarakat yang sadar informasi.
 
-Dengan hadirnya Rumah DATAku, diharapkan terbangun kepercayaan publik serta tercipta tata kelola pemerintahan desa yang lebih transparan, inovatif, dan berorientasi pada kebutuhan masyarakat."</span>
+Dengan hadirnya Rumah DATAku, diharapkan terbangun kepercayaan publik serta tercipta tata kelola pemerintahan Desa/Kel yang lebih transparan, inovatif, dan berorientasi pada kebutuhan masyarakat."</span>
 
                 </div>
             </div>
@@ -272,7 +272,7 @@ Dengan hadirnya Rumah DATAku, diharapkan terbangun kepercayaan publik serta terc
         <div class="card" style="background:linear-gradient(135deg,#007bff 0%,#0056b3 100%);color:white;">
             <h2 style="margin-bottom:10px;">Selamat Datang di RUMAH DATAku</h2>
             <h3 style="margin-bottom:20px;font-weight:300;">Empoang Selatan</h3>
-            <p><strong>Definisi:</strong> Rumah Data adalah pusat data dan informasi desa/Kelurahan yang terintegrasi, transparan, dan akuntabel sebagai dasar perencanaan pembangunan.</p>
+            <p><strong>Definisi:</strong> Rumah Data adalah pusat data dan informasi Desa/Kelurahan yang terintegrasi, transparan, dan akuntabel sebagai dasar perencanaan pembangunan.</p>
             <p style="margin-top:10px;"><strong>Manfaat:</strong> Mempermudah perencanaan, monitoring, dan evaluasi program pembangunan secara partisipatif.</p>
         </div>
         <div class="card">
@@ -485,7 +485,7 @@ Dengan hadirnya Rumah DATAku, diharapkan terbangun kepercayaan publik serta terc
                         <option value="Penyuluh KB">Penyuluh KB</option>
                         <option value="Babinsa">Babinsa</option>
                         <option value="Bhabinkamtibmas">Bhabinkamtibmas</option>
-                        <option value="Perangkat Desa/Kel">Perangkat Desa/Kel</option>
+                        <option value="Perangkat Desa/Kel/Kel">Perangkat Desa/Kel/Kel</option>
                         <option value="Kader IMP">Kader IMP</option>
                         <option value="Lainnya">Lainnya</option>
                     </select>
@@ -515,7 +515,7 @@ Dengan hadirnya Rumah DATAku, diharapkan terbangun kepercayaan publik serta terc
 
 <!-- MODALS -->
 <div id="modalPemerintah" class="card modal-fixed">
-    <h4 class="card-title">Tambah Perangkat Desa/Kel</h4>
+    <h4 class="card-title">Tambah Perangkat Desa/Kel/Kel</h4>
     <div class="form-group"><label>Nama</label><input type="text" id="pem_nama"></div>
     <div class="form-group"><label>Jabatan</label><input type="text" id="pem_jabatan" placeholder="Contoh: Kepala Dusun"></div>
     <div class="form-group"><label>Foto</label><input type="file" id="pem_foto" accept="image/*"></div>
@@ -790,7 +790,7 @@ async function savePemerintah() {
         await addDoc('emp_pemerintah', {nama, jabatan:jab, photo});
         closeModal('modalPemerintah');
         document.getElementById('pem_nama').value=''; document.getElementById('pem_jabatan').value='';
-        toast('Perangkat Desa/Kel ditambahkan!');
+        toast('Perangkat Desa/Kel/Kel ditambahkan!');
     } catch(e) { toast(e,'err'); }
 }
 
