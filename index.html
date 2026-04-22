@@ -73,14 +73,14 @@
         .brand img { width:100%; max-width:180px; margin-bottom:10px; }
         .brand h2 { font-size:1.1rem; color:var(--primary-dark); font-weight:700; margin-bottom:2px; }
         .brand p { font-size:.8rem; color:var(--text-light); text-transform:uppercase; letter-spacing:1px; }
-        nav button {
-            background:none; border:none; width:100%; text-align:left;
-            padding:12px 15px; margin-bottom:5px; border-radius:8px;
-            color:var(--text-dark); font-weight:500; cursor:pointer;
-            display:flex; align-items:center; gap:12px; transition:.2s; font-size:.95rem;
-        }
-        nav button:hover { background:var(--primary-light); color:var(--primary); }
-        nav button.active { background:var(--primary); color:white; box-shadow:var(--shadow); }
+        nav a.nav-btn {
+    display:flex; align-items:center; gap:12px;
+    padding:12px 15px; margin-bottom:5px; border-radius:8px;
+    color:var(--text-dark); font-weight:500; text-decoration:none;
+    transition:.2s; font-size:.95rem;
+}
+nav a.nav-btn:hover { background:var(--primary-light); color:var(--primary); }
+nav a.nav-btn.active { background:var(--primary); color:white; box-shadow:var(--shadow); }
 
         main { margin-left:280px; padding:2rem; width:100%; max-width:1600px; }
         header {
@@ -89,8 +89,11 @@
             display:flex; justify-content:space-between; align-items:center;
             border-left:5px solid var(--accent);
         }
-        .content-section { display:none; animation:slideUp .4s ease-out; }
-        .content-section.active { display:block; }
+        .content-section { display:none; }
+.content-section:target,
+.content-section.active { display:block; animation:slideUp .4s ease-out; }
+/* Fallback: tampilkan Dashboard kalau tidak ada hash apapun */
+main:not(:has(.content-section:target)) > #dashboard { display:block; animation:slideUp .4s ease-out; }
         @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
         .card { background:var(--white); padding:1.5rem; border-radius:var(--radius); box-shadow:var(--shadow); margin-bottom:1.5rem; border:1px solid #eee; }
@@ -193,20 +196,20 @@
     <h2>RUMAH DATAku</h2>
     <p>Kel. Empoang selatan</p>
 </div>
-    <nav>
-        <button onclick="nav('dashboard',this)" class="active"><i class="fas fa-home"></i> Dashboard</button>
-        <button onclick="nav('profil',this)"><i class="fas fa-landmark"></i> Profil Wilayah</button>
-        <button onclick="nav('penduduk',this)"><i class="fas fa-users"></i> Data Penduduk</button>
-        <button onclick="nav('poktan',this)"><i class="fas fa-leaf"></i> Data POKTAN</button>
-        <button onclick="nav('kegiatan_pkk',this)"><i class="fas fa-heart"></i> Kegiatan PKK</button>
-        <button onclick="nav('galeri',this)"><i class="fas fa-images"></i> Galeri & Data Lain</button>
-        <button onclick="nav('rencana',this)"><i class="fas fa-clipboard-check"></i> Rencana Aksi</button>
-        <button onclick="nav('saran',this)"><i class="fas fa-comments"></i> Saran & Masukan</button>
-        <div style="margin-top:auto;border-top:1px solid #eee;padding-top:10px;">
-            <button id="navLoginBtn" onclick="showLoginScreen()" style="color:var(--primary);font-weight:600;"><i class="fas fa-user-lock"></i> Login Admin</button>
-            <button id="navLogoutBtn" class="admin-only" onclick="logout()" style="color:#dc3545;"><i class="fas fa-sign-out-alt"></i> Keluar Admin</button>
-        </div>
-    </nav>
+   <nav>
+    <a href="#dashboard" class="nav-btn active"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="#profil" class="nav-btn"><i class="fas fa-landmark"></i> Profil Wilayah</a>
+    <a href="#penduduk" class="nav-btn"><i class="fas fa-users"></i> Data Penduduk</a>
+    <a href="#poktan" class="nav-btn"><i class="fas fa-leaf"></i> Data POKTAN</a>
+    <a href="#kegiatan_pkk" class="nav-btn"><i class="fas fa-heart"></i> Kegiatan PKK</a>
+    <a href="#galeri" class="nav-btn"><i class="fas fa-images"></i> Galeri & Data Lain</a>
+    <a href="#rencana" class="nav-btn"><i class="fas fa-clipboard-check"></i> Rencana Aksi</a>
+    <a href="#saran" class="nav-btn"><i class="fas fa-comments"></i> Saran & Masukan</a>
+    <div style="margin-top:auto;border-top:1px solid #eee;padding-top:10px;">
+        <a href="javascript:void(0)" class="nav-btn" id="navLoginBtn" onclick="showLoginScreen()" style="color:var(--primary);font-weight:600;"><i class="fas fa-user-lock"></i> Login Admin</a>
+        <a href="javascript:void(0)" class="nav-btn admin-only" id="navLogoutBtn" onclick="logout()" style="color:#dc3545;"><i class="fas fa-sign-out-alt"></i> Keluar Admin</a>
+    </div>
+</nav>
 </aside>
 
 <!-- MAIN CONTENT -->
@@ -294,10 +297,11 @@
             <div class="card-header"><h4 class="card-title">Peta Wilayah Kel. Empoang selatan</h4></div>
             <div class="admin-only" style="margin-bottom:15px;padding:15px;background:#f8f9fa;border-radius:8px;border:1px dashed #ccc;">
                 <label style="display:block;font-weight:600;margin-bottom:5px;color:#333;">Link Google Maps (Embed):</label>
-                <input type="text" id="mapLink" placeholder="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19540.784440031668!2d119.75419476161031!3d-5.685496506507014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2db937b63f20bfdd%3A0x9f09aa4957bdb119!2sSouth%20Empoang%2C%20Binamu%2C%20Jeneponto%20Regency%2C%20South%20Sulawesi!5e1!3m2!1sen!2sid!4v1776149800057!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        
+<input type="text" id="mapLink" placeholder="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19540.784440031668!2d119.75419476161031!3d-5.685496506507014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2db937b63f20bfdd%3A0x9f09aa4957bdb119!2sSouth%20Empoang%2C%20Binamu%2C%20Jeneponto%20Regency%2C%20South%20Sulawesi!5e1!3m2!1sen!2sid!4v1776149800057!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <button class="btn-full btn-primary btn-sm" onclick="saveMap()" style="margin-top:10px;">Simpan Peta</button>
             </div>
-            <iframe id="mapDisplay" class="map-frame" src=""></iframe>
+            <iframe id="mapDisplay" class="map-frame" src="></iframe>
         </div>
         <div class="card">
             <div class="card-header">
@@ -558,24 +562,69 @@
 
 <script>
 // =============================================
-// FIREBASE INIT (pakai project yang sudah ada)
+// NAVIGASI & UI (DIPISAH DI ATAS, AMAN DARI ERROR FIREBASE)
 // =============================================
-const firebaseConfig = {
-    apiKey: "AIzaSyAt7_P1BaWEQhvzmnf0IzmAg86IKqpeBr0",
-    authDomain: "rdk-kalumpangloe.firebaseapp.com",
-    projectId: "rdk-kalumpangloe",
-    storageBucket: "rdk-kalumpangloe.firebasestorage.app",
-    messagingSenderId: "262824037626",
-    appId: "1:262824037626:web:7e17ef676c8558d3594d43",
-    measurementId: "G-FBEZ56MVWK"
-};
-firebase.initializeApp(firebaseConfig);
-const fsdb = firebase.firestore();
+function nav(id, btn) {
+    document.querySelectorAll('.content-section').forEach(function(d) { d.classList.remove('active'); });
+    var el = document.getElementById(id);
+    if(el) el.classList.add('active');
+    document.querySelectorAll('nav button').forEach(function(b) { b.classList.remove('active'); });
+    if(btn) btn.classList.add('active');
+    var t = {dashboard:'Dashboard',profil:'Profil Wilayah',penduduk:'Data Penduduk',poktan:'Data POKTAN',kegiatan_pkk:'Kegiatan PKK',galeri:'Galeri & Data Lain',rencana:'Rencana Aksi',saran:'Saran & Masukan'};
+    var pt = document.getElementById('pageTitle');
+    if(pt) pt.innerText = t[id]||'Dashboard';
+    // Tutup sidebar mobile setelah klik menu
+    var aside = document.querySelector('aside');
+    if(aside && window.innerWidth <= 768) { aside.classList.remove('active'); }
+}
+function subTab(id, btn) {
+    document.querySelectorAll('.sub-content').forEach(function(d) { d.style.display='none'; });
+    var el = document.getElementById(id);
+    if(el) el.style.display='block';
+    document.querySelectorAll('#penduduk .tab').forEach(function(b) { b.classList.remove('active'); });
+    if(btn) btn.classList.add('active');
+}
+function openModal(id) { var el=document.getElementById(id); if(el) el.classList.add('active'); }
+function closeModal(id) { var el=document.getElementById(id); if(el) el.classList.remove('active'); }
+function toast(msg, type) {
+    type = type || 'ok';
+    var box = document.getElementById('toastBox');
+    if(!box) return;
+    var el = document.createElement('div');
+    el.className = 'toast-item toast-' + type;
+    var icon = type==='ok'?'fa-check-circle':type==='err'?'fa-exclamation-circle':'fa-info-circle';
+    el.innerHTML = '<i class="fas '+icon+'"></i> ' + msg;
+    box.appendChild(el);
+    requestAnimationFrame(function() { el.classList.add('show'); });
+    setTimeout(function() { el.classList.remove('show'); setTimeout(function() { el.remove(); }, 300); }, 3500);
+}
 
 // =============================================
-// STATE (data lokal yang sync dengan Firestore)
+// FIREBASE INIT (DIBUNGKUS TRY-CATCH, AMAN!)
 // =============================================
-let cfg = {
+var fsdb = null;
+var firebaseReady = false;
+try {
+    var firebaseConfig = {
+        apiKey: "AIzaSyAt7_P1BaWEQhvzmnf0IzmAg86IKqpeBr0",
+        authDomain: "rdk-kalumpangloe.firebaseapp.com",
+        projectId: "rdk-kalumpangloe",
+        storageBucket: "rdk-kalumpangloe.firebasestorage.app",
+        messagingSenderId: "262824037626",
+        appId: "1:262824037626:web:7e17ef676c8558d3594d43",
+        measurementId: "G-FBEZ56MVWK"
+    };
+    firebase.initializeApp(firebaseConfig);
+    fsdb = firebase.firestore();
+    firebaseReady = true;
+} catch(e) {
+    console.warn('Firebase tidak bisa dimuat (mungkin diblokir preview):', e.message);
+}
+
+// =============================================
+// STATE
+// =============================================
+var cfg = {
     kk:0, lk:0, pr:0, umur:{}, note:'',
     kesehatan:{baru:0,ganti:0,ulang:0,bumil:0,baduta:0,balita:0},
     pendidikan:{sd:0,smp:0,sma:0,pt:0},
@@ -584,45 +633,34 @@ let cfg = {
     poktan:{bkb:0,bkr:0,bkl:0,ks:0,genting:0,tamasya:0,sidaya:0,gati:0},
     mapLink:''
 };
-let arrData = {
+var arrData = {
     pemerintah:[], pokja:[], rumahdata:[], fasum:[],
     pkk_reports:[], galeri:[], rencana:[], saran:[], lainnya:[]
 };
-let listeners = [];
-let dataReady = false;
+var listeners = [];
+var dataReady = false;
 
 // =============================================
-// TOAST NOTIFICATION
+// COMPRESS IMAGE
 // =============================================
-function toast(msg, type='ok') {
-    const box = document.getElementById('toastBox');
-    const el = document.createElement('div');
-    el.className = 'toast-item toast-' + type;
-    el.innerHTML = '<i class="fas ' + ({ok:'fa-check-circle',err:'fa-exclamation-circle',info:'fa-info-circle'}[type]||'fa-info-circle') + '"></i> ' + msg;
-    box.appendChild(el);
-    requestAnimationFrame(() => el.classList.add('show'));
-    setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 3500);
-}
-
-// =============================================
-// COMPRESS IMAGE (supaya foto tidak kebesaran)
-// =============================================
-function compressImg(file, maxW=400, quality=0.4) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = e => {
-            const img = new Image();
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                let w = img.width, h = img.height;
+function compressImg(file, maxW, quality) {
+    maxW = maxW || 400;
+    quality = quality || 0.4;
+    return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = new Image();
+            img.onload = function() {
+                var canvas = document.createElement('canvas');
+                var w = img.width, h = img.height;
                 if (w > maxW) { h = (maxW/w)*h; w = maxW; }
                 canvas.width = w; canvas.height = h;
                 canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-                const result = canvas.toDataURL('image/jpeg', quality);
-                if (result.length > 900000) reject('Foto terlalu besar, gunakan foto yang lebih kecil');
+                var result = canvas.toDataURL('image/jpeg', quality);
+                if (result.length > 900000) reject('Foto terlalu besar');
                 else resolve(result);
             };
-            img.onerror = () => reject('Gagal memuat foto');
+            img.onerror = function() { reject('Gagal memuat foto'); };
             img.src = e.target.result;
         };
         reader.readAsDataURL(file);
@@ -630,14 +668,20 @@ function compressImg(file, maxW=400, quality=0.4) {
 }
 
 // =============================================
-// FIRESTORE: LISTENERS (Real-time)
+// FIRESTORE LISTENERS (HANYA JALAN KALAU FIREBASE OK)
 // =============================================
 function startListeners() {
-    // Config document
+    if (!firebaseReady) {
+        // Firebase tidak tersedia, sembunyikan loading dan tampilkan peringatan
+        var lo = document.getElementById('loadingOverlay');
+        if (lo) lo.style.display = 'none';
+        toast('Mode Offline: Database tidak terhubung', 'info');
+        return;
+    }
     listeners.push(
-        fsdb.collection('emp_config').doc('main').onSnapshot(doc => {
+        fsdb.collection('emp_config').doc('main').onSnapshot(function(doc) {
             if (doc.exists) {
-                const d = doc.data();
+                var d = doc.data();
                 cfg.kk = d.kk||0; cfg.lk = d.lk||0; cfg.pr = d.pr||0;
                 cfg.umur = d.umur||{}; cfg.note = d.note||'';
                 cfg.kesehatan = d.kesehatan||{baru:0,ganti:0,ulang:0,bumil:0,baduta:0,balita:0};
@@ -648,79 +692,64 @@ function startListeners() {
                 cfg.mapLink = d.mapLink||'';
             }
             refreshConfigUI();
-        }, err => console.error('Config listener error:', err))
+        }, function(err) { console.error('Config listener error:', err); })
     );
-
-    // Array collections
-    const collections = {
+    var collections = {
         pemerintah:'emp_pemerintah', pokja:'emp_pokja', rumahdata:'emp_rumahdata',
         fasum:'emp_fasum', pkk_reports:'emp_pkk', galeri:'emp_galeri',
         rencana:'emp_rencana', saran:'emp_saran', lainnya:'emp_lainnya'
     };
-    Object.entries(collections).forEach(([key, colName]) => {
+    Object.keys(collections).forEach(function(key) {
+        var colName = collections[key];
         listeners.push(
-            fsdb.collection(colName).orderBy('createdAt','desc').onSnapshot(snapshot => {
-                arrData[key] = snapshot.docs.map(doc => ({id:doc.id, ...doc.data()}));
+            fsdb.collection(colName).orderBy('createdAt','desc').onSnapshot(function(snapshot) {
+                arrData[key] = snapshot.docs.map(function(doc) { return {id:doc.id}; var d=doc.data(); for(var k in d) arrData[key][arrData[key].length-1][k]=d[k]; return arrData[key][arrData[key].length-1]; });
                 refreshArrayUI(key);
-            }, err => console.error(colName + ' listener error:', err))
+            }, function(err) { console.error(colName + ' listener error:', err); })
         );
     });
-
-    // Tandai data siap setelah delay kecil
-    setTimeout(() => { dataReady = true; }, 1500);
+    setTimeout(function() { dataReady = true; }, 1500);
 }
 
 function detachListeners() {
-    listeners.forEach(unsub => unsub());
+    listeners.forEach(function(unsub) { unsub(); });
     listeners = [];
 }
 
 // =============================================
-// SAVE CONFIG KE FIRESTORE
+// SAVE / ADD / DEL (CEK FIREBASE DULU)
 // =============================================
 async function saveConfig() {
+    if (!firebaseReady) { toast('Database tidak terhubung!','err'); return; }
     try {
         await fsdb.collection('emp_config').doc('main').set(cfg, {merge:true});
         toast('Data berhasil disimpan ke cloud!');
     } catch(e) { toast('Gagal simpan: ' + e.message, 'err'); }
 }
-
-// =============================================
-// TAMBAH DATA KE COLLECTION
-// =============================================
 async function addDoc(colName, data) {
+    if (!firebaseReady) { toast('Database tidak terhubung!','err'); return false; }
     try {
         data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
         await fsdb.collection(colName).add(data);
         return true;
     } catch(e) { toast('Gagal: ' + e.message, 'err'); return false; }
 }
-
-// =============================================
-// HAPUS DATA DARI COLLECTION
-// =============================================
 async function delDoc(colName, docId) {
-    try {
-        await fsdb.collection(colName).doc(docId).delete();
-    } catch(e) { toast('Gagal hapus: ' + e.message, 'err'); }
+    if (!firebaseReady) { toast('Database tidak terhubung!','err'); return; }
+    try { await fsdb.collection(colName).doc(docId).delete(); } catch(e) { toast('Gagal hapus: ' + e.message, 'err'); }
 }
 
 // =============================================
-// REFRESH UI: CONFIG
+// REFRESH UI
 // =============================================
 function refreshConfigUI() {
     loadKuantitas(); loadKualitas(); loadSDM(); loadPoktan(); loadMap();
     updateDashboard(); renderCharts();
-    // Sembunyikan loading overlay saat pertama kali data masuk
-    const lo = document.getElementById('loadingOverlay');
+    var lo = document.getElementById('loadingOverlay');
     if (lo) lo.style.display = 'none';
 }
-
-// =============================================
-// REFRESH UI: ARRAY
-// =============================================
 function refreshArrayUI(key) {
-    const map = {
+    var map = {
         pemerintah: loadPemerintah, pokja: loadPokja, rumahdata: loadRumahData,
         fasum: loadFasum, pkk_reports: loadPKKReports, galeri: loadGallery,
         rencana: loadRencana, saran: loadSaran, lainnya: loadDataLain
@@ -748,49 +777,23 @@ function enterApp(isAdmin) {
 }
 function logout() { if(confirm('Keluar dari aplikasi?')) { sessionStorage.clear(); location.reload(); } }
 function updateAuthUI(isAdmin) {
-    const lb = document.getElementById('navLoginBtn');
-    const lo = document.getElementById('navLogoutBtn');
+    var lb = document.getElementById('navLoginBtn');
+    var lo = document.getElementById('navLogoutBtn');
     if(lb) lb.style.display = isAdmin ? 'none' : 'flex';
     if(lo) lo.style.display = isAdmin ? 'flex' : 'none';
 }
 
 // =============================================
-// NAVIGASI
+// RENDER TABEL FOTO
 // =============================================
-function nav(id, btn) {
-    document.querySelectorAll('.content-section').forEach(d => d.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-    const t = {dashboard:'Dashboard',profil:'Profil Wilayah',penduduk:'Data Penduduk',poktan:'Data POKTAN',kegiatan_pkk:'Kegiatan PKK',galeri:'Galeri & Data Lain',rencana:'Rencana Aksi',saran:'Saran & Masukan'};
-    document.getElementById('pageTitle').innerText = t[id]||'Dashboard';
-}
-function subTab(id, btn) {
-    document.querySelectorAll('.sub-content').forEach(d => d.style.display='none');
-    document.getElementById(id).style.display='block';
-    document.querySelectorAll('#penduduk .tab').forEach(b => b.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-}
-
-// =============================================
-// MODAL
-// =============================================
-function openModal(id) { document.getElementById(id).classList.add('active'); }
-function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-// Render tabel dengan foto
 function renderPhotoTable(tbodyId, dataArr, colName) {
-    const tbody = document.querySelector('#'+tbodyId+' tbody');
+    var tbody = document.querySelector('#'+tbodyId+' tbody');
     if(!tbody) return;
     if(dataArr.length===0) { tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#999;">Belum ada data.</td></tr>'; return; }
-    tbody.innerHTML = dataArr.map(item => `
-        <tr>
-            <td><img src="${item.photo||'https://cdn-icons-png.flaticon.com/512/921/921059.png'}" class="avatar-sm"></td>
-            <td>${item.nama||'-'}</td>
-            <td>${item.jabatan||'-'}</td>
-            <td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc('${colName}','${item.id}').then(()=>toast('Data dihapus'))"><i class="fas fa-trash"></i></button></td>
-        </tr>
-    `).join('');
+    tbody.innerHTML = dataArr.map(function(item) {
+        var photo = item.photo || 'https://cdn-icons-png.flaticon.com/512/921/921059.png';
+        return '<tr><td><img src="'+photo+'" class="avatar-sm"></td><td>'+(item.nama||'-')+'</td><td>'+(item.jabatan||'-')+'</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc(\''+colName+'\',\''+item.id+'\').then(function(){toast(\'Data dihapus\')})"><i class="fas fa-trash"></i></button></td></tr>';
+    }).join('');
 }
 
 // =============================================
@@ -798,11 +801,11 @@ function renderPhotoTable(tbodyId, dataArr, colName) {
 // =============================================
 function loadPemerintah() { renderPhotoTable('tablePemerintah', arrData.pemerintah, 'emp_pemerintah'); }
 async function savePemerintah() {
-    const nama=document.getElementById('pem_nama').value, jab=document.getElementById('pem_jabatan').value, file=document.getElementById('pem_foto').files[0];
+    var nama=document.getElementById('pem_nama').value, jab=document.getElementById('pem_jabatan').value, file=document.getElementById('pem_foto').files[0];
     if(!nama||!jab) { toast('Nama dan Jabatan wajib diisi!','err'); return; }
     try {
-        const photo = file ? await compressImg(file) : '';
-        await addDoc('emp_pemerintah', {nama, jabatan:jab, photo});
+        var photo = file ? await compressImg(file) : '';
+        await addDoc('emp_pemerintah', {nama:nama, jabatan:jab, photo:photo});
         closeModal('modalPemerintah');
         document.getElementById('pem_nama').value=''; document.getElementById('pem_jabatan').value='';
         toast('Perangkat Desa/Kel ditambahkan!');
@@ -814,31 +817,30 @@ async function savePemerintah() {
 // =============================================
 function loadPokja() { renderPhotoTable('tablePokja', arrData.pokja, 'emp_pokja'); }
 async function savePokja() {
-    const nama=document.getElementById('pokja_nama').value;
-    let jab=document.getElementById('pokja_jabatan').value;
+    var nama=document.getElementById('pokja_nama').value;
+    var jab=document.getElementById('pokja_jabatan').value;
     if(jab==='Seksi') jab+=': '+document.getElementById('pokja_seksi').value;
-    const file=document.getElementById('pokja_foto').files[0];
+    var file=document.getElementById('pokja_foto').files[0];
     if(!nama) { toast('Nama wajib diisi!','err'); return; }
     try {
-        const photo = file ? await compressImg(file) : '';
-        await addDoc('emp_pokja', {nama, jabatan:jab, photo});
+        var photo = file ? await compressImg(file) : '';
+        await addDoc('emp_pokja', {nama:nama, jabatan:jab, photo:photo});
         closeModal('modalPokja');
         document.getElementById('pokja_nama').value=''; document.getElementById('pokja_seksi').value='';
         toast('Pengurus POKJA ditambahkan!');
     } catch(e) { toast(e,'err'); }
 }
-document.getElementById('pokja_jabatan').addEventListener('change', function(){ document.getElementById('pokja_seksi').style.display = this.value==='Seksi'?'block':'none'; });
 
 // =============================================
 // RUMAH DATA
 // =============================================
 function loadRumahData() { renderPhotoTable('tableRumahData', arrData.rumahdata, 'emp_rumahdata'); }
 async function saveRumahData() {
-    const nama=document.getElementById('rd_nama').value, jab=document.getElementById('rd_jabatan').value, file=document.getElementById('rd_foto').files[0];
+    var nama=document.getElementById('rd_nama').value, jab=document.getElementById('rd_jabatan').value, file=document.getElementById('rd_foto').files[0];
     if(!nama) { toast('Nama wajib diisi!','err'); return; }
     try {
-        const photo = file ? await compressImg(file) : '';
-        await addDoc('emp_rumahdata', {nama, jabatan:jab, photo});
+        var photo = file ? await compressImg(file) : '';
+        await addDoc('emp_rumahdata', {nama:nama, jabatan:jab, photo:photo});
         closeModal('modalRumahData');
         document.getElementById('rd_nama').value='';
         toast('Pengurus RUMAH DATAku ditambahkan!');
@@ -849,22 +851,12 @@ async function saveRumahData() {
 // POKTAN
 // =============================================
 function loadPoktan() {
-    const p=cfg.poktan;
-    document.getElementById('poktan_bkb').value=p.bkb||0;
-    document.getElementById('poktan_bkr').value=p.bkr||0;
-    document.getElementById('poktan_bkl').value=p.bkl||0;
-    document.getElementById('poktan_ks').value=p.ks||0;
-    document.getElementById('poktan_genting').value=p.genting||0;
-    document.getElementById('poktan_tamasya').value=p.tamasya||0;
-    document.getElementById('poktan_sidaya').value=p.sidaya||0;
-    document.getElementById('poktan_gati').value=p.gati||0;
-    const tbody=document.querySelector('#tablePoktan tbody');
-    if(tbody) tbody.innerHTML=`
-        <tr><td>IKUT BKB</td><td>${p.bkb||0}</td></tr><tr><td>IKUT BKR</td><td>${p.bkr||0}</td></tr>
-        <tr><td>IKUT BKL</td><td>${p.bkl||0}</td></tr><tr><td>IKUT SATYAGATRA</td><td>${p.ks||0}</td></tr>
-        <tr style="font-weight:bold;background:#f9f9f9;"><td>QUICK WIN</td><td></td></tr>
-        <tr><td>Genting</td><td>${p.genting||0}</td></tr><tr><td>Tamasya</td><td>${p.tamasya||0}</td></tr>
-        <tr><td>Sidaya</td><td>${p.sidaya||0}</td></tr><tr><td>Gati</td><td>${p.gati||0}</td></tr>`;
+    var p=cfg.poktan;
+    var ids = ['poktan_bkb','poktan_bkr','poktan_bkl','poktan_ks','poktan_genting','poktan_tamasya','poktan_sidaya','poktan_gati'];
+    var keys = ['bkb','bkr','bkl','ks','genting','tamasya','sidaya','gati'];
+    ids.forEach(function(id,i) { var el=document.getElementById(id); if(el) el.value=p[keys[i]]||0; });
+    var tbody=document.querySelector('#tablePoktan tbody');
+    if(tbody) tbody.innerHTML='<tr><td>IKUT BKB</td><td>'+(p.bkb||0)+'</td></tr><tr><td>IKUT BKR</td><td>'+(p.bkr||0)+'</td></tr><tr><td>IKUT BKL</td><td>'+(p.bkl||0)+'</td></tr><tr><td>IKUT SATYAGATRA</td><td>'+(p.ks||0)+'</td></tr><tr style="font-weight:bold;background:#f9f9f9;"><td>QUICK WIN</td><td></td></tr><tr><td>Genting</td><td>'+(p.genting||0)+'</td></tr><tr><td>Tamasya</td><td>'+(p.tamasya||0)+'</td></tr><tr><td>Sidaya</td><td>'+(p.sidaya||0)+'</td></tr><tr><td>Gati</td><td>'+(p.gati||0)+'</td></tr>';
 }
 async function savePoktan() {
     cfg.poktan.bkb=parseInt(document.getElementById('poktan_bkb').value)||0;
@@ -882,8 +874,10 @@ async function savePoktan() {
 // MAP
 // =============================================
 function loadMap() {
-    document.getElementById('mapLink').value = cfg.mapLink||'';
-    document.getElementById('mapDisplay').src = cfg.mapLink||'';
+    var ml = document.getElementById('mapLink');
+    var md = document.getElementById('mapDisplay');
+    if(ml) ml.value = cfg.mapLink||'';
+    if(md) md.src = cfg.mapLink||'';
 }
 async function saveMap() {
     cfg.mapLink = document.getElementById('mapLink').value;
@@ -894,25 +888,26 @@ async function saveMap() {
 // KUANTITAS
 // =============================================
 function loadKuantitas() {
-    document.getElementById('in_kk').value=cfg.kk;
-    document.getElementById('in_lk').value=cfg.lk;
-    document.getElementById('in_pr').value=cfg.pr;
-    document.getElementById('in_jiwa').value=cfg.lk+cfg.pr;
-    document.getElementById('in_note_kuantitas').value=cfg.note||'';
-    document.querySelectorAll('.age-input').forEach(inp => { inp.value=cfg.umur[inp.getAttribute('data-age')]||0; });
-    const tbody=document.querySelector('#tableUmur');
-    if(tbody) tbody.innerHTML='<thead><tr><th>Umur</th><th>Jumlah</th></tr></thead>'+Object.keys(cfg.umur).sort().map(k=>`<tr><td>${k} Thn</td><td>${cfg.umur[k]}</td></tr>`).join('');
+    var el;
+    el=document.getElementById('in_kk'); if(el) el.value=cfg.kk;
+    el=document.getElementById('in_lk'); if(el) el.value=cfg.lk;
+    el=document.getElementById('in_pr'); if(el) el.value=cfg.pr;
+    el=document.getElementById('in_jiwa'); if(el) el.value=cfg.lk+cfg.pr;
+    el=document.getElementById('in_note_kuantitas'); if(el) el.value=cfg.note||'';
+    document.querySelectorAll('.age-input').forEach(function(inp) { inp.value=cfg.umur[inp.getAttribute('data-age')]||0; });
+    var tbody=document.querySelector('#tableUmur');
+    if(tbody) tbody.innerHTML='<thead><tr><th>Umur</th><th>Jumlah</th></tr></thead>'+Object.keys(cfg.umur).sort().map(function(k){return '<tr><td>'+k+' Thn</td><td>'+cfg.umur[k]+'</td></tr>';}).join('');
 }
 function hitungJiwa() {
-    const l=parseInt(document.getElementById('in_lk').value)||0, p=parseInt(document.getElementById('in_pr').value)||0;
-    document.getElementById('in_jiwa').value=l+p;
+    var l=parseInt(document.getElementById('in_lk').value)||0, p=parseInt(document.getElementById('in_pr').value)||0;
+    var el=document.getElementById('in_jiwa'); if(el) el.value=l+p;
 }
 async function saveKuantitas() {
     cfg.kk=parseInt(document.getElementById('in_kk').value)||0;
     cfg.lk=parseInt(document.getElementById('in_lk').value)||0;
     cfg.pr=parseInt(document.getElementById('in_pr').value)||0;
     cfg.note=document.getElementById('in_note_kuantitas').value;
-    document.querySelectorAll('.age-input').forEach(inp => { cfg.umur[inp.getAttribute('data-age')]=parseInt(inp.value)||0; });
+    document.querySelectorAll('.age-input').forEach(function(inp) { cfg.umur[inp.getAttribute('data-age')]=parseInt(inp.value)||0; });
     await saveConfig();
 }
 
@@ -920,16 +915,14 @@ async function saveKuantitas() {
 // KUALITAS
 // =============================================
 function loadKualitas() {
-    ['kb_baru','kb_ganti','kb_ulang','k_bumil','k_baduta','k_balita'].forEach(id => {
-        const el=document.getElementById(id);
-        if(el) el.value=cfg.kesehatan[id.replace('k_','')]||0;
-    });
-    const h=cfg.kesehatan;
-    const tKes=document.getElementById('tableKesehatan');
-    if(tKes) tKes.innerHTML=`<tr><td>KB Baru</td><td>${h.baru}</td></tr><tr><td>Ganti Cara</td><td>${h.ganti}</td></tr><tr><td>Ulangan</td><td>${h.ulang}</td></tr><tr><td>Bumil</td><td>${h.bumil}</td></tr><tr><td>Baduta</td><td>${h.baduta}</td></tr><tr><td>Balita</td><td>${h.balita}</td></tr>`;
-    const p=cfg.pendidikan;
-    const tPen=document.getElementById('tablePendidikan');
-    if(tPen) tPen.innerHTML=`<tr><td>7-12 (SD)</td><td>${p.sd}</td></tr><tr><td>13-15 (SMP)</td><td>${p.smp}</td></tr><tr><td>16-18 (SMA)</td><td>${p.sma}</td></tr><tr><td>Perguruan Tinggi</td><td>${p.pt}</td></tr>`;
+    var map1 = {kb_baru:'baru',kb_ganti:'ganti',kb_ulang:'ulang',k_bumil:'bumil',k_baduta:'baduta',k_balita:'balita'};
+    Object.keys(map1).forEach(function(id) { var el=document.getElementById(id); if(el) el.value=cfg.kesehatan[map1[id]]||0; });
+    var h=cfg.kesehatan;
+    var tKes=document.getElementById('tableKesehatan');
+    if(tKes) tKes.innerHTML='<tr><td>KB Baru</td><td>'+h.baru+'</td></tr><tr><td>Ganti Cara</td><td>'+h.ganti+'</td></tr><tr><td>Ulangan</td><td>'+h.ulang+'</td></tr><tr><td>Bumil</td><td>'+h.bumil+'</td></tr><tr><td>Baduta</td><td>'+h.baduta+'</td></tr><tr><td>Balita</td><td>'+h.balita+'</td></tr>';
+    var p=cfg.pendidikan;
+    var tPen=document.getElementById('tablePendidikan');
+    if(tPen) tPen.innerHTML='<tr><td>7-12 (SD)</td><td>'+p.sd+'</td></tr><tr><td>13-15 (SMP)</td><td>'+p.smp+'</td></tr><tr><td>16-18 (SMA)</td><td>'+p.sma+'</td></tr><tr><td>Perguruan Tinggi</td><td>'+p.pt+'</td></tr>';
 }
 async function saveKualitasKesehatan() {
     cfg.kesehatan.baru=parseInt(document.getElementById('kb_baru').value)||0;
@@ -945,13 +938,13 @@ async function saveKualitasKesehatan() {
 // FASUM
 // =============================================
 function loadFasum() {
-    const tbody=document.querySelector('#tableFasum tbody');
+    var tbody=document.querySelector('#tableFasum tbody');
     if(!tbody) return;
     if(arrData.fasum.length===0) { tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#999;">Belum ada data.</td></tr>'; return; }
-    tbody.innerHTML=arrData.fasum.map(f=>`<tr><td>${f.type||'-'}</td><td>${f.name||'-'}</td><td>${f.addr||'-'}</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc('emp_fasum','${f.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+    tbody.innerHTML=arrData.fasum.map(function(f){return '<tr><td>'+(f.type||'-')+'</td><td>'+(f.name||'-')+'</td><td>'+(f.addr||'-')+'</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc(\'emp_fasum\',\''+f.id+'\')"><i class="fas fa-trash"></i></button></td></tr>';}).join('');
 }
 async function addFasum() {
-    const n=document.getElementById('fasum_name').value, t=document.getElementById('fasum_type').value, a=document.getElementById('fasum_addr').value;
+    var n=document.getElementById('fasum_name').value, t=document.getElementById('fasum_type').value, a=document.getElementById('fasum_addr').value;
     if(!n) { toast('Nama fasilitas wajib diisi!','err'); return; }
     await addDoc('emp_fasum', {name:n,type:t,addr:a});
     document.getElementById('fasum_name').value=''; document.getElementById('fasum_addr').value='';
@@ -968,7 +961,7 @@ async function editPendidikan() {
     await saveConfig();
 }
 async function editPekerjaan() {
-    Object.keys(cfg.pekerjaan).forEach(k => { cfg.pekerjaan[k]=parseInt(prompt('Jumlah '+k+':',cfg.pekerjaan[k]))||0; });
+    Object.keys(cfg.pekerjaan).forEach(function(k) { cfg.pekerjaan[k]=parseInt(prompt('Jumlah '+k+':',cfg.pekerjaan[k]))||0; });
     await saveConfig();
 }
 
@@ -976,14 +969,12 @@ async function editPekerjaan() {
 // SDM
 // =============================================
 function loadSDM() {
-    const s=cfg.sdm;
-    document.getElementById('sdm_kb').value=s.kb||0;
-    document.getElementById('sdm_pkk').value=s.pkk||0;
-    document.getElementById('sdm_tpk').value=s.tpk||0;
-    document.getElementById('sdm_pos').value=s.pos||0;
-    document.getElementById('sdm_lain').value=s.lain||0;
-    const tbody=document.querySelector('#tableSDM tbody');
-    if(tbody) tbody.innerHTML=`<tr><td>Kader KB</td><td>${s.kb||0}</td></tr><tr><td>Kader PKK</td><td>${s.pkk||0}</td></tr><tr><td>Kader TPK</td><td>${s.tpk||0}</td></tr><tr><td>Kader Posyandu</td><td>${s.pos||0}</td></tr><tr><td>Lainnya</td><td>${s.lain||0}</td></tr>`;
+    var s=cfg.sdm;
+    var ids=['sdm_kb','sdm_pkk','sdm_tpk','sdm_pos','sdm_lain'];
+    var keys=['kb','pkk','tpk','pos','lain'];
+    ids.forEach(function(id,i) { var el=document.getElementById(id); if(el) el.value=s[keys[i]]||0; });
+    var tbody=document.querySelector('#tableSDM tbody');
+    if(tbody) tbody.innerHTML='<tr><td>Kader KB</td><td>'+(s.kb||0)+'</td></tr><tr><td>Kader PKK</td><td>'+(s.pkk||0)+'</td></tr><tr><td>Kader TPK</td><td>'+(s.tpk||0)+'</td></tr><tr><td>Kader Posyandu</td><td>'+(s.pos||0)+'</td></tr><tr><td>Lainnya</td><td>'+(s.lain||0)+'</td></tr>';
 }
 async function saveSDM() {
     cfg.sdm.kb=parseInt(document.getElementById('sdm_kb').value)||0;
@@ -998,13 +989,13 @@ async function saveSDM() {
 // RENCANA AKSI
 // =============================================
 function loadRencana() {
-    const tbody=document.querySelector('#tableRencana tbody');
+    var tbody=document.querySelector('#tableRencana tbody');
     if(!tbody) return;
     if(arrData.rencana.length===0) { tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#999;">Belum ada rencana aksi.</td></tr>'; return; }
-    tbody.innerHTML=arrData.rencana.map(r=>`<tr><td>${r.pelaku||'-'}</td><td>${r.text||'-'}</td><td>${r.date||'-'}</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc('emp_rencana','${r.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+    tbody.innerHTML=arrData.rencana.map(function(r){return '<tr><td>'+(r.pelaku||'-')+'</td><td>'+(r.text||'-')+'</td><td>'+(r.date||'-')+'</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc(\'emp_rencana\',\''+r.id+'\')"><i class="fas fa-trash"></i></button></td></tr>';}).join('');
 }
 async function addRencana() {
-    const p=document.getElementById('rencana_pelaku').value, t=document.getElementById('rencana_text').value, d=document.getElementById('rencana_date').value;
+    var p=document.getElementById('rencana_pelaku').value, t=document.getElementById('rencana_text').value, d=document.getElementById('rencana_date').value;
     if(!t||!d) { toast('Rencana dan Tanggal wajib diisi!','err'); return; }
     await addDoc('emp_rencana', {pelaku:p,text:t,date:d});
     document.getElementById('rencana_text').value=''; document.getElementById('rencana_date').value='';
@@ -1014,24 +1005,21 @@ async function addRencana() {
 // GALERI
 // =============================================
 function loadGallery() {
-    const c=document.getElementById('galleryContainer');
+    var c=document.getElementById('galleryContainer');
     if(!c) return;
     if(arrData.galeri.length===0) { c.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#999;">Belum ada foto.</p>'; return; }
-    c.innerHTML=arrData.galeri.map((g,i)=>`
-        <div class="gallery-item">
-            <button class="delete-btn admin-only" onclick="delDoc('emp_galeri','${g.id}')"><i class="fas fa-times"></i></button>
-            <img src="${g.src}" class="gallery-img" onclick="window.open('${g.src}')">
-            <div class="gallery-info"><span class="gallery-caption">${g.desc||'-'}</span><small style="color:#777;">${g.date||''}</small></div>
-        </div>`).join('');
+    c.innerHTML=arrData.galeri.map(function(g){
+        return '<div class="gallery-item"><button class="delete-btn admin-only" onclick="delDoc(\'emp_galeri\',\''+g.id+'\')"><i class="fas fa-times"></i></button><img src="'+g.src+'" class="gallery-img" onclick="window.open(\''+g.src+'\')"><div class="gallery-info"><span class="gallery-caption">'+(g.desc||'-')+'</span><small style="color:#777;">'+(g.date||'')+'</small></div></div>';
+    }).join('');
 }
 async function uploadGallery() {
-    const desc=document.getElementById('gal_desc').value, files=document.getElementById('gal_files').files;
+    var desc=document.getElementById('gal_desc').value, files=document.getElementById('gal_files').files;
     if(!files.length) { toast('Pilih minimal satu foto!','err'); return; }
-    let count=0;
-    for(const file of Array.from(files)) {
+    var count=0;
+    for(var i=0; i<files.length; i++) {
         try {
-            const src = await compressImg(file, 500, 0.5);
-            await addDoc('emp_galeri', {src, desc:desc||'Dokumentasi', date:new Date().toLocaleDateString()});
+            var src = await compressImg(files[i], 500, 0.5);
+            await addDoc('emp_galeri', {src:src, desc:desc||'Dokumentasi', date:new Date().toLocaleDateString()});
             count++;
         } catch(e) { toast('Gagal upload foto: '+e, 'err'); }
     }
@@ -1042,26 +1030,19 @@ async function uploadGallery() {
 // PKK REPORTS
 // =============================================
 function loadPKKReports() {
-    const c=document.getElementById('pkk_list');
+    var c=document.getElementById('pkk_list');
     if(!c) return;
     if(arrData.pkk_reports.length===0) { c.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#999;">Belum ada laporan kegiatan PKK.</p>'; return; }
-    c.innerHTML=arrData.pkk_reports.map(item=>`
-        <div class="gallery-item">
-            <button class="delete-btn admin-only" onclick="delDoc('emp_pkk','${item.id}')"><i class="fas fa-trash"></i></button>
-            <img src="${item.photo}" class="gallery-img" onclick="window.open('${item.photo}')">
-            <div class="gallery-info">
-                <span class="gallery-caption">${item.title||'-'}</span>
-                <span style="font-size:.75rem;color:#888;"><i class="far fa-calendar-alt"></i> ${item.date||''}</span>
-                <p style="font-size:.85rem;color:#555;margin-top:5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">${item.desc||''}</p>
-            </div>
-        </div>`).join('');
+    c.innerHTML=arrData.pkk_reports.map(function(item){
+        return '<div class="gallery-item"><button class="delete-btn admin-only" onclick="delDoc(\'emp_pkk\',\''+item.id+'\')"><i class="fas fa-trash"></i></button><img src="'+item.photo+'" class="gallery-img" onclick="window.open(\''+item.photo+'\')"><div class="gallery-info"><span class="gallery-caption">'+(item.title||'-')+'</span><span style="font-size:.75rem;color:#888;"><i class="far fa-calendar-alt"></i> '+(item.date||'')+'</span><p style="font-size:.85rem;color:#555;margin-top:5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">'+(item.desc||'')+'</p></div></div>';
+    }).join('');
 }
 async function addPKKReport() {
-    const date=document.getElementById('pkk_date').value, title=document.getElementById('pkk_title').value, desc=document.getElementById('pkk_desc').value, file=document.getElementById('pkk_photo').files[0];
+    var date=document.getElementById('pkk_date').value, title=document.getElementById('pkk_title').value, desc=document.getElementById('pkk_desc').value, file=document.getElementById('pkk_photo').files[0];
     if(!title||!date||!file) { toast('Judul, Tanggal, dan Foto wajib diisi!','err'); return; }
     try {
-        const photo = await compressImg(file, 500, 0.5);
-        await addDoc('emp_pkk', {date,title,desc,photo});
+        var photo = await compressImg(file, 500, 0.5);
+        await addDoc('emp_pkk', {date:date,title:title,desc:desc,photo:photo});
         document.getElementById('pkk_title').value=''; document.getElementById('pkk_desc').value=''; document.getElementById('pkk_date').value=''; document.getElementById('pkk_photo').value='';
         toast('Laporan PKK ditambahkan!');
     } catch(e) { toast(e,'err'); }
@@ -1071,17 +1052,15 @@ async function addPKKReport() {
 // SARAN
 // =============================================
 function loadSaran() {
-    const list=document.getElementById('saranList');
+    var list=document.getElementById('saranList');
     if(!list) return;
     if(arrData.saran.length===0) { list.innerHTML=''; return; }
-    list.innerHTML=arrData.saran.map(s=>`
-        <div class="guest-entry">
-            <strong>${s.name||'-'}</strong> <small style="float:right;color:#888;">${s.date||''}</small>
-            <p style="margin-top:5px;">${s.msg||'-'}</p>
-        </div>`).join('');
+    list.innerHTML=arrData.saran.map(function(s){
+        return '<div class="guest-entry"><strong>'+(s.name||'-')+'</strong> <small style="float:right;color:#888;">'+(s.date||'')+'</small><p style="margin-top:5px;">'+(s.msg||'-')+'</p></div>';
+    }).join('');
 }
 async function addSaran() {
-    const n=document.getElementById('guest_name').value, m=document.getElementById('guest_msg').value;
+    var n=document.getElementById('guest_name').value, m=document.getElementById('guest_msg').value;
     if(!n||!m) { toast('Nama dan Pesan wajib diisi!','err'); return; }
     await addDoc('emp_saran', {name:n,msg:m,date:new Date().toLocaleDateString()});
     document.getElementById('guest_name').value=''; document.getElementById('guest_msg').value='';
@@ -1091,13 +1070,13 @@ async function addSaran() {
 // DATA LAINNYA
 // =============================================
 function loadDataLain() {
-    const tbody=document.querySelector('#tableLain tbody');
+    var tbody=document.querySelector('#tableLain tbody');
     if(!tbody) return;
     if(arrData.lainnya.length===0) { tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#999;">Belum ada data.</td></tr>'; return; }
-    tbody.innerHTML=arrData.lainnya.map(l=>`<tr><td>${l.judul||'-'}</td><td>${l.sumber||'-'}</td><td>${l.isi||'-'}</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc('emp_lainnya','${l.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+    tbody.innerHTML=arrData.lainnya.map(function(l){return '<tr><td>'+(l.judul||'-')+'</td><td>'+(l.sumber||'-')+'</td><td>'+(l.isi||'-')+'</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc(\'emp_lainnya\',\''+l.id+'\')"><i class="fas fa-trash"></i></button></td></tr>';}).join('');
 }
 async function addDataLain() {
-    const j=document.getElementById('lain_judul').value, s=document.getElementById('lain_sumber').value, i=document.getElementById('lain_isi').value;
+    var j=document.getElementById('lain_judul').value, s=document.getElementById('lain_sumber').value, i=document.getElementById('lain_isi').value;
     if(!j) { toast('Judul data wajib diisi!','err'); return; }
     await addDoc('emp_lainnya', {judul:j,sumber:s,isi:i});
     document.getElementById('lain_judul').value=''; document.getElementById('lain_sumber').value=''; document.getElementById('lain_isi').value='';
@@ -1107,48 +1086,81 @@ async function addDataLain() {
 // DASHBOARD & CHARTS
 // =============================================
 function updateDashboard() {
-    document.getElementById('d_jiwa').innerText=cfg.lk+cfg.pr;
-    document.getElementById('d_kk').innerText=cfg.kk;
-    document.getElementById('d_kader').innerText=(cfg.sdm.kb||0)+(cfg.sdm.pkk||0)+(cfg.sdm.tpk||0)+(cfg.sdm.pos||0)+(cfg.sdm.lain||0);
-    document.getElementById('d_posyandu').innerText=arrData.fasum.filter(f=>f.type==='Posyandu').length;
+    var el;
+    el=document.getElementById('d_jiwa'); if(el) el.innerText=cfg.lk+cfg.pr;
+    el=document.getElementById('d_kk'); if(el) el.innerText=cfg.kk;
+    el=document.getElementById('d_kader'); if(el) el.innerText=(cfg.sdm.kb||0)+(cfg.sdm.pkk||0)+(cfg.sdm.tpk||0)+(cfg.sdm.pos||0)+(cfg.sdm.lain||0);
+    el=document.getElementById('d_posyandu'); if(el) el.innerText=arrData.fasum.filter(function(f){return f.type==='Posyandu';}).length;
 }
 
-let charts={};
+var charts={};
 function renderCharts() {
-    const getCtx=id=>{ const el=document.getElementById(id); return el?el.getContext('2d'):null; };
+    if(typeof Chart === 'undefined') return;
+    var getCtx=function(id){ var el=document.getElementById(id); return el?el.getContext('2d'):null; };
 
-    const ctxG=getCtx('chartGender');
+    var ctxG=getCtx('chartGender');
     if(ctxG){ if(charts.gender) charts.gender.destroy(); charts.gender=new Chart(ctxG,{type:'doughnut',data:{labels:['Lk','Pr'],datasets:[{data:[cfg.lk,cfg.pr],backgroundColor:['#007bff','#ffc107']}]},options:{maintainAspectRatio:false,plugins:{title:{display:true,text:'Gender'}}}}); }
 
-    const uKeys=Object.keys(cfg.umur).sort(), uVals=uKeys.map(k=>cfg.umur[k]);
-    const ctxP=getCtx('chartPiramida');
+    var uKeys=Object.keys(cfg.umur).sort(), uVals=uKeys.map(function(k){return cfg.umur[k];});
+    var ctxP=getCtx('chartPiramida');
     if(ctxP){ if(charts.piramida) charts.piramida.destroy(); charts.piramida=new Chart(ctxP,{type:'bar',data:{labels:uKeys,datasets:[{label:'Jiwa',data:uVals,backgroundColor:'#007bff'}]},options:{indexAxis:'y',maintainAspectRatio:false,scales:{x:{beginAtZero:true}}}}); }
 
-    const ctxK=getCtx('chartKuantitasDetail');
+    var ctxK=getCtx('chartKuantitasDetail');
     if(ctxK){ if(charts.kuan) charts.kuan.destroy(); charts.kuan=new Chart(ctxK,{type:'bar',data:{labels:uKeys,datasets:[{label:'Penduduk',data:uVals,backgroundColor:'#17a2b8'}]},options:{maintainAspectRatio:false,scales:{y:{beginAtZero:true}}}}); }
 
-    const ctxKes=getCtx('chartKesehatan');
+    var ctxKes=getCtx('chartKesehatan');
     if(ctxKes){ if(charts.kes) charts.kes.destroy(); charts.kes=new Chart(ctxKes,{type:'bar',data:{labels:['Baru','Ganti','Ulang','Bumil','Baduta','Balita'],datasets:[{data:Object.values(cfg.kesehatan),backgroundColor:'#28a745'}]},options:{maintainAspectRatio:false,scales:{y:{beginAtZero:true}}}}); }
 
-    const ctxJob=getCtx('chartPekerjaan');
+    var ctxJob=getCtx('chartPekerjaan');
     if(ctxJob){ if(charts.job) charts.job.destroy(); charts.job=new Chart(ctxJob,{type:'pie',data:{labels:Object.keys(cfg.pekerjaan),datasets:[{data:Object.values(cfg.pekerjaan),backgroundColor:['#dc3545','#ffc107','#17a2b8','#28a745','#6610f2','#6c757d']}]},options:{maintainAspectRatio:false}}); }
 }
 
 // =============================================
 // INIT
 // =============================================
+// =============================================
+// NAVIGASI ENHANCER (JS, opsional tapi memperbaiki active state)
+// =============================================
+document.addEventListener('click', function(e) {
+    var link = e.target.closest('a.nav-btn[href^="#"]');
+    if (!link) return;
+    // Hapus active dari semua nav
+    document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+    link.classList.add('active');
+    // Hapus active dari semua section
+    document.querySelectorAll('.content-section').forEach(function(s) { s.classList.remove('active'); });
+    // Update judul halaman
+    var hash = link.getAttribute('href').replace('#','');
+    var titles = {dashboard:'Dashboard',profil:'Profil Wilayah',penduduk:'Data Penduduk',poktan:'Data POKTAN',kegiatan_pkk:'Kegiatan PKK',galeri:'Galeri & Data Lain',rencana:'Rencana Aksi',saran:'Saran & Masukan'};
+    var pt = document.getElementById('pageTitle');
+    if(pt) pt.innerText = titles[hash]||'Dashboard';
+    // Tutup sidebar mobile
+    var aside = document.querySelector('aside');
+    if(aside && window.innerWidth <= 768) aside.classList.remove('active');
+});
 window.onload = function() {
     startListeners();
-    const role = sessionStorage.getItem('role');
+    var role = sessionStorage.getItem('role');
     if(role) {
         document.getElementById('loginOverlay').style.display='none';
         if(role==='admin') { document.body.classList.add('is-admin'); updateAuthUI(true); }
-        else updateAuthUI(false);
+        else { updateAuthUI(false); }
     } else {
         document.getElementById('loginOverlay').style.display='flex';
         updateAuthUI(false);
     }
 };
+
+// Event listener untuk dropdown Pokja (dipisah agar aman)
+document.addEventListener('DOMContentLoaded', function() {
+    var pokjaSelect = document.getElementById('pokja_jabatan');
+    if(pokjaSelect) {
+        pokjaSelect.addEventListener('change', function() {
+            var seksiInput = document.getElementById('pokja_seksi');
+            if(seksiInput) seksiInput.style.display = this.value==='Seksi'?'block':'none';
+        });
+    }
+});
 </script>
 </body>
 </html>
