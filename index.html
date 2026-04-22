@@ -635,7 +635,7 @@ function compressImg(file, maxW=400, quality=0.4) {
 function startListeners() {
     // Config document
     listeners.push(
-        fsdb.collection('Maero_config').doc('main').onSnapshot(doc => {
+        fsdb.collection('emp_config').doc('main').onSnapshot(doc => {
             if (doc.exists) {
                 const d = doc.data();
                 cfg.kk = d.kk||0; cfg.lk = d.lk||0; cfg.pr = d.pr||0;
@@ -653,9 +653,9 @@ function startListeners() {
 
     // Array collections
     const collections = {
-        pemerintah:'Maero_pemerintah', pokja:'Maero_pokja', rumahdata:'Maero_rumahdata',
-        fasum:'Maero_fasum', pkk_reports:'Maero_pkk', galeri:'Maero_galeri',
-        rencana:'Maero_rencana', saran:'Maero_saran', lainnya:'Maero_lainnya'
+        pemerintah:'emp_pemerintah', pokja:'emp_pokja', rumahdata:'emp_rumahdata',
+        fasum:'emp_fasum', pkk_reports:'emp_pkk', galeri:'emp_galeri',
+        rencana:'emp_rencana', saran:'emp_saran', lainnya:'emp_lainnya'
     };
     Object.entries(collections).forEach(([key, colName]) => {
         listeners.push(
@@ -680,7 +680,7 @@ function detachListeners() {
 // =============================================
 async function saveConfig() {
     try {
-        await fsdb.collection('Maero_config').doc('main').set(cfg, {merge:true});
+        await fsdb.collection('emp_config').doc('main').set(cfg, {merge:true});
         toast('Data berhasil disimpan ke cloud!');
     } catch(e) { toast('Gagal simpan: ' + e.message, 'err'); }
 }
@@ -796,13 +796,13 @@ function renderPhotoTable(tbodyId, dataArr, colName) {
 // =============================================
 // PEMERINTAH
 // =============================================
-function loadPemerintah() { renderPhotoTable('tablePemerintah', arrData.pemerintah, 'Maero_pemerintah'); }
+function loadPemerintah() { renderPhotoTable('tablePemerintah', arrData.pemerintah, 'emp_pemerintah'); }
 async function savePemerintah() {
     const nama=document.getElementById('pem_nama').value, jab=document.getElementById('pem_jabatan').value, file=document.getElementById('pem_foto').files[0];
     if(!nama||!jab) { toast('Nama dan Jabatan wajib diisi!','err'); return; }
     try {
         const photo = file ? await compressImg(file) : '';
-        await addDoc('Maero_pemerintah', {nama, jabatan:jab, photo});
+        await addDoc('emp_pemerintah', {nama, jabatan:jab, photo});
         closeModal('modalPemerintah');
         document.getElementById('pem_nama').value=''; document.getElementById('pem_jabatan').value='';
         toast('Perangkat Desa/Kel ditambahkan!');
@@ -812,7 +812,7 @@ async function savePemerintah() {
 // =============================================
 // POKJA
 // =============================================
-function loadPokja() { renderPhotoTable('tablePokja', arrData.pokja, 'Maero_pokja'); }
+function loadPokja() { renderPhotoTable('tablePokja', arrData.pokja, 'emp_pokja'); }
 async function savePokja() {
     const nama=document.getElementById('pokja_nama').value;
     let jab=document.getElementById('pokja_jabatan').value;
@@ -821,7 +821,7 @@ async function savePokja() {
     if(!nama) { toast('Nama wajib diisi!','err'); return; }
     try {
         const photo = file ? await compressImg(file) : '';
-        await addDoc('Maero_pokja', {nama, jabatan:jab, photo});
+        await addDoc('emp_pokja', {nama, jabatan:jab, photo});
         closeModal('modalPokja');
         document.getElementById('pokja_nama').value=''; document.getElementById('pokja_seksi').value='';
         toast('Pengurus POKJA ditambahkan!');
@@ -832,13 +832,13 @@ document.getElementById('pokja_jabatan').addEventListener('change', function(){ 
 // =============================================
 // RUMAH DATA
 // =============================================
-function loadRumahData() { renderPhotoTable('tableRumahData', arrData.rumahdata, 'Maero_rumahdata'); }
+function loadRumahData() { renderPhotoTable('tableRumahData', arrData.rumahdata, 'emp_rumahdata'); }
 async function saveRumahData() {
     const nama=document.getElementById('rd_nama').value, jab=document.getElementById('rd_jabatan').value, file=document.getElementById('rd_foto').files[0];
     if(!nama) { toast('Nama wajib diisi!','err'); return; }
     try {
         const photo = file ? await compressImg(file) : '';
-        await addDoc('Maero_rumahdata', {nama, jabatan:jab, photo});
+        await addDoc('emp_rumahdata', {nama, jabatan:jab, photo});
         closeModal('modalRumahData');
         document.getElementById('rd_nama').value='';
         toast('Pengurus RUMAH DATAku ditambahkan!');
@@ -948,12 +948,12 @@ function loadFasum() {
     const tbody=document.querySelector('#tableFasum tbody');
     if(!tbody) return;
     if(arrData.fasum.length===0) { tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#999;">Belum ada data.</td></tr>'; return; }
-    tbody.innerHTML=arrData.fasum.map(f=>`<tr><td>${f.type||'-'}</td><td>${f.name||'-'}</td><td>${f.addr||'-'}</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc('Maero_fasum','${f.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+    tbody.innerHTML=arrData.fasum.map(f=>`<tr><td>${f.type||'-'}</td><td>${f.name||'-'}</td><td>${f.addr||'-'}</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc('emp_fasum','${f.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
 }
 async function addFasum() {
     const n=document.getElementById('fasum_name').value, t=document.getElementById('fasum_type').value, a=document.getElementById('fasum_addr').value;
     if(!n) { toast('Nama fasilitas wajib diisi!','err'); return; }
-    await addDoc('Maero_fasum', {name:n,type:t,addr:a});
+    await addDoc('emp_fasum', {name:n,type:t,addr:a});
     document.getElementById('fasum_name').value=''; document.getElementById('fasum_addr').value='';
 }
 
@@ -1001,12 +1001,12 @@ function loadRencana() {
     const tbody=document.querySelector('#tableRencana tbody');
     if(!tbody) return;
     if(arrData.rencana.length===0) { tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#999;">Belum ada rencana aksi.</td></tr>'; return; }
-    tbody.innerHTML=arrData.rencana.map(r=>`<tr><td>${r.pelaku||'-'}</td><td>${r.text||'-'}</td><td>${r.date||'-'}</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc('Maero_rencana','${r.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+    tbody.innerHTML=arrData.rencana.map(r=>`<tr><td>${r.pelaku||'-'}</td><td>${r.text||'-'}</td><td>${r.date||'-'}</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc('emp_rencana','${r.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
 }
 async function addRencana() {
     const p=document.getElementById('rencana_pelaku').value, t=document.getElementById('rencana_text').value, d=document.getElementById('rencana_date').value;
     if(!t||!d) { toast('Rencana dan Tanggal wajib diisi!','err'); return; }
-    await addDoc('Maero_rencana', {pelaku:p,text:t,date:d});
+    await addDoc('emp_rencana', {pelaku:p,text:t,date:d});
     document.getElementById('rencana_text').value=''; document.getElementById('rencana_date').value='';
 }
 
@@ -1019,7 +1019,7 @@ function loadGallery() {
     if(arrData.galeri.length===0) { c.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#999;">Belum ada foto.</p>'; return; }
     c.innerHTML=arrData.galeri.map((g,i)=>`
         <div class="gallery-item">
-            <button class="delete-btn admin-only" onclick="delDoc('Maero_galeri','${g.id}')"><i class="fas fa-times"></i></button>
+            <button class="delete-btn admin-only" onclick="delDoc('emp_galeri','${g.id}')"><i class="fas fa-times"></i></button>
             <img src="${g.src}" class="gallery-img" onclick="window.open('${g.src}')">
             <div class="gallery-info"><span class="gallery-caption">${g.desc||'-'}</span><small style="color:#777;">${g.date||''}</small></div>
         </div>`).join('');
@@ -1031,7 +1031,7 @@ async function uploadGallery() {
     for(const file of Array.from(files)) {
         try {
             const src = await compressImg(file, 500, 0.5);
-            await addDoc('Maero_galeri', {src, desc:desc||'Dokumentasi', date:new Date().toLocaleDateString()});
+            await addDoc('emp_galeri', {src, desc:desc||'Dokumentasi', date:new Date().toLocaleDateString()});
             count++;
         } catch(e) { toast('Gagal upload foto: '+e, 'err'); }
     }
@@ -1047,7 +1047,7 @@ function loadPKKReports() {
     if(arrData.pkk_reports.length===0) { c.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#999;">Belum ada laporan kegiatan PKK.</p>'; return; }
     c.innerHTML=arrData.pkk_reports.map(item=>`
         <div class="gallery-item">
-            <button class="delete-btn admin-only" onclick="delDoc('Maero_pkk','${item.id}')"><i class="fas fa-trash"></i></button>
+            <button class="delete-btn admin-only" onclick="delDoc('emp_pkk','${item.id}')"><i class="fas fa-trash"></i></button>
             <img src="${item.photo}" class="gallery-img" onclick="window.open('${item.photo}')">
             <div class="gallery-info">
                 <span class="gallery-caption">${item.title||'-'}</span>
@@ -1061,7 +1061,7 @@ async function addPKKReport() {
     if(!title||!date||!file) { toast('Judul, Tanggal, dan Foto wajib diisi!','err'); return; }
     try {
         const photo = await compressImg(file, 500, 0.5);
-        await addDoc('Maero_pkk', {date,title,desc,photo});
+        await addDoc('emp_pkk', {date,title,desc,photo});
         document.getElementById('pkk_title').value=''; document.getElementById('pkk_desc').value=''; document.getElementById('pkk_date').value=''; document.getElementById('pkk_photo').value='';
         toast('Laporan PKK ditambahkan!');
     } catch(e) { toast(e,'err'); }
@@ -1083,7 +1083,7 @@ function loadSaran() {
 async function addSaran() {
     const n=document.getElementById('guest_name').value, m=document.getElementById('guest_msg').value;
     if(!n||!m) { toast('Nama dan Pesan wajib diisi!','err'); return; }
-    await addDoc('Maero_saran', {name:n,msg:m,date:new Date().toLocaleDateString()});
+    await addDoc('emp_saran', {name:n,msg:m,date:new Date().toLocaleDateString()});
     document.getElementById('guest_name').value=''; document.getElementById('guest_msg').value='';
 }
 
@@ -1094,12 +1094,12 @@ function loadDataLain() {
     const tbody=document.querySelector('#tableLain tbody');
     if(!tbody) return;
     if(arrData.lainnya.length===0) { tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#999;">Belum ada data.</td></tr>'; return; }
-    tbody.innerHTML=arrData.lainnya.map(l=>`<tr><td>${l.judul||'-'}</td><td>${l.sumber||'-'}</td><td>${l.isi||'-'}</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc('Maero_lainnya','${l.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+    tbody.innerHTML=arrData.lainnya.map(l=>`<tr><td>${l.judul||'-'}</td><td>${l.sumber||'-'}</td><td>${l.isi||'-'}</td><td class="admin-only"><button style="color:red;border:none;background:none;cursor:pointer;" onclick="delDoc('emp_lainnya','${l.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
 }
 async function addDataLain() {
     const j=document.getElementById('lain_judul').value, s=document.getElementById('lain_sumber').value, i=document.getElementById('lain_isi').value;
     if(!j) { toast('Judul data wajib diisi!','err'); return; }
-    await addDoc('Maero_lainnya', {judul:j,sumber:s,isi:i});
+    await addDoc('emp_lainnya', {judul:j,sumber:s,isi:i});
     document.getElementById('lain_judul').value=''; document.getElementById('lain_sumber').value=''; document.getElementById('lain_isi').value='';
 }
 
